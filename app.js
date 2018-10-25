@@ -5,9 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var addUserRouter = require('./routes/addUser');
-var login = require('./routes/login');
+//登陆模块
+var addUserRouter = require('./routes/login/addUser');
+var login = require('./routes/login/login');
 
 var app = express();
 app.all('*', function(req, res, next) {
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//登陆模块接口
 app.use('/addUser', addUserRouter);
 app.use('/login', login);
 

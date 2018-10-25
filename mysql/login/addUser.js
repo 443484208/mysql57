@@ -1,4 +1,4 @@
-var connection = require('./index.js');
+var connection = require('./../index.js');
 var addUser = function(res, id) {
 
 	connection.connect(function(err) {
