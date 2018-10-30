@@ -14,7 +14,6 @@ var login = function(res,req, id) {
 			
 			if(result == "") {
 				console.log('登陆验证...');
-				console.log('没有该账号！请注册后登陆！');
 				var data = {
 						message: '没有该账号！请注册后登陆！',
 						code: '666',
@@ -23,11 +22,10 @@ var login = function(res,req, id) {
 			} else {
 				console.log('查找成功...');
 				console.log('返回数据...');
-				if(result[0].password == id.password) {
-			
-			
+				console.log(req.session)
+
 					var data = {
-						message: '登陆成功！',
+						message: '查找成功！',
 						code: '200',
 						data: {
 							age: result[0].age,
@@ -39,14 +37,7 @@ var login = function(res,req, id) {
 					res.send(data);
 
 				
-				} else {
-					var data = {
-						message: '密码不对！',
-						code: '201',
-					}
-					console.log('密码不对！')
-					res.send(data);
-				}
+				
 			}
 		});
 	}

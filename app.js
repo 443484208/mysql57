@@ -8,8 +8,15 @@ var indexRouter = require('./routes/index');
 //登陆模块
 var addUserRouter = require('./routes/login/addUser');
 var login = require('./routes/login/login');
+var search = require('./routes/login/search');
+//session
+	
+var session = require('client-sessions')
+
+
 
 var app = express();
+
 app.all('*', function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -28,10 +35,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//使用中间件session
+app.use(session({
+ cookieName: 'session',
+ secret: 'random_string_goes_here',
+ duration: 30 * 60 * 1000,
+ activeDuration: 5 * 60 * 1000,
+}));
 app.use('/', indexRouter);
 //登陆模块接口
 app.use('/addUser', addUserRouter);
 app.use('/login', login);
+app.use('/search', search);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
