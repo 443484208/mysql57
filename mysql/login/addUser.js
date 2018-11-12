@@ -1,6 +1,6 @@
 var connection = require('./../index.js');
 var addUser = function(res, id) {
-
+	console.log(res)
 	connection.connect(function(err) {
 		if(err) {} else {
 			console.log("数据库连接成功");

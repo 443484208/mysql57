@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var search=require('./../../mysql/login/search.js');
+var search=require('./../../mysql/writing/write.js');
 /* POST users listing. */
 //默认 '/urlencoded
 //登陆验证

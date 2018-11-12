@@ -6,6 +6,7 @@ var login = function(res,req, id) {
 			console.log("数据库连接成功");
 		}
 	});
+	
 	//查是否有该用户
 	if(id.user) {
 		var sql = 'SELECT * FROM user where user="' + id.user + '"';
@@ -22,8 +23,6 @@ var login = function(res,req, id) {
 			} else {
 				console.log('查找成功...');
 				console.log('返回数据...');
-				console.log(req.session)
-
 					var data = {
 						message: '查找成功！',
 						code: '200',
