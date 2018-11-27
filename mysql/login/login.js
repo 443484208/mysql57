@@ -10,9 +10,10 @@ var login = function(res,req, id) {
 
 	//查是否有该用户
 	if(id.user) {
+		
 		var sql = 'SELECT * FROM user where user="' + id.user + '"';
 		connection.query(sql, function(err, result) {
-			if(err) throw err;
+			
 			
 			if(result == "") {
 				console.log('登陆验证...');
@@ -25,6 +26,7 @@ var login = function(res,req, id) {
 			} else {
 				console.log('查找成功...');
 				console.log('返回数据...登陆成功！');
+				console.log(result)
 				if(result[0].password == id.password) {
 			
 			
@@ -39,7 +41,14 @@ var login = function(res,req, id) {
 					}
 
 					res.send(data);
-
+if(req.session.views){
+			console.log('session=',req.session.views)
+			req.session.views=req.session.views+1;
+			
+		}else{
+			req.session.views=1;
+		}
+		console.log(req.session.views)
 				
 				} else {
 					var data = {

@@ -14,20 +14,16 @@ var wzarticle = require('./routes/writing/article');
 var wzsearch = require('./routes/writing/search');
 //session
 
-var session = require('express-session');
 
-
-
+var parseurl = require('parseurl')
+var session = require('express-session')
 
 var app = express();
 app.use(session({
-  secret :  'secret', // 对session id 相关的cookie 进行签名
-  resave : true,
-  saveUninitialized: false, // 是否保存未初始化的会话
-  cookie : {
-    maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
-  },
-}));
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
 
 //跨域设置
 app.all('*', function(req, res, next) {
