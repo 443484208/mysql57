@@ -7,11 +7,13 @@ var write = function(res,req, id) {
 		}
 	});
 	//查是否有该用户
-	var addSql = 'INSERT INTO article(user,text,title) VALUES(?,?,?)';
+	var addSql = 'INSERT INTO article(user,text,title,modificationtime,isDelect,creationTime) VALUES(?,?,?,?,?,?)';
 	var addSqlParams = [];
 	addSqlParams.push(id.user);
 	addSqlParams.push(id.text);
 	addSqlParams.push(id.title);
+	addSqlParams.push(id.modificationtime);
+	addSqlParams.push(0);
 
 	console.log(addSqlParams);
 	connection.query(addSql, addSqlParams, function(err, result) {

@@ -6,8 +6,6 @@ var login=require('./../../mysql/login/login.js');
 //登陆验证
 router.post('/', function(req, res, next) {
 
-	console.log(res.session)
-
 
 	login(res,req,req.body);
 });

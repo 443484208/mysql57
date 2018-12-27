@@ -1,66 +1,128 @@
 var connection = require('./../index.js');
-
-var login = function(res,req, id) {
+//随机session
+function randomString(len, charSet) {
+	charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var randomString = '';
+	for(var i = 0; i < len; i++) {
+		var randomPoz = Math.floor(Math.random() * charSet.length);
+		randomString += charSet.substring(randomPoz, randomPoz + 1);
+	}
+	return randomString;
+};
+var login = function(res, req, id) {
 	connection.connect(function(err) {
 		if(err) {} else {
 			console.log("数据库连接成功");
 		}
 	});
-
-
 	//查是否有该用户
 	if(id.user) {
-		
 		var sql = 'SELECT * FROM user where user="' + id.user + '"';
 		connection.query(sql, function(err, result) {
-			
-			
 			if(result == "") {
 				console.log('登陆验证...');
 				console.log('没有该账号！请注册后登陆！');
 				var data = {
-						message: '没有该账号！请注册后登陆！',
-						code: '666',
-					}
+					message: '没有该账号！请注册后登陆！',
+					code: '666',
+				}
 				res.send(data);
 			} else {
 				console.log('查找成功...');
 				console.log('返回数据...登陆成功！');
-				console.log(result)
+				var session = randomString(8);
+				console.log('生成随机数=', session);
+				debugger
+				console.log('色素随便=', req.session.views);
 				if(result[0].password == id.password) {
-			
-			
+				search(res, id, session);
+				debugger
+					if(req.session.views) {
+						req.session.views++
+							res.setHeader('Content-Type', 'text/html');
+					} else {
+						req.session.views = session;
+					}
 					var data = {
 						message: '登陆成功！',
 						code: '200',
 						data: {
 							age: result[0].age,
 							user: result[0].user,
-							email: result[0].email
+							email: result[0].email,
+							session: session,
 						}
-					}
-
+					};
 					res.send(data);
-if(req.session.views){
-			console.log('session=',req.session.views)
-			req.session.views=req.session.views+1;
-			
-		}else{
-			req.session.views=1;
-		}
-		console.log(req.session.views)
-				
 				} else {
 					var data = {
 						message: '密码不对！',
 						code: '201',
-					}
-					console.log('密码不对！')
+					};
+					console.log('密码不对！');
 					res.send(data);
 				}
 			}
 		});
+
 	}
+}
+
+function addsession(res, id, session) {
+	//新增
+	var addSql = 'INSERT INTO session(user,session,lastTime) VALUES(?,?,?)';
+	var addSqlParams = [];
+	addSqlParams.push(id.user)
+	addSqlParams.push(session)
+	addSqlParams.push(id.lastTime)
+	connection.query(addSql, addSqlParams, function(err, result) {
+		if(err) {
+			console.log('查询失败...');
+		} else {
+			console.log('查询成功...');
+
+		}
+	});
+}
+
+function search(res, id, session) {
+	debugger
+	console.log('id.user',id.user)
+	var sql = 'SELECT * FROM session where user="'+id.user+'";';
+	connection.query(sql, function(err, result) {
+		debugger
+		console.log('err=',err)
+		console.log('result=',result)
+		if(err) throw err;
+		if(result == "") {
+			
+			console.log('没有登录过，现在准备写入数据库。。。')
+			addsession(res, id, session)
+		} else {
+			console.log('登陆过，替换session。。。');
+			updatesession(res, id, session)
+		}
+	});
+	debugger
+	console.log("session=", session)
+}
+
+function updatesession(res, id, session) {
+	var sql = 'UPDATE session SET session = "'+ session +'" WHERE user ="'+ id.user +'";';
+
+	connection.query(sql, function(err, result) {
+		if(err) throw err;
+		if(result == "") {
+			console.log('result=', result)
+			console.log('没有登录过，现在准备写入数据库。。。')
+
+		} else {
+			console.log('登陆过，替换session。。。');
+
+			console.log('result=', result)
+		}
+	});
+
 }
 
 module.exports = login;

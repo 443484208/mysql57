@@ -7,18 +7,16 @@ var addUser = function(res, id) {
 
 		}
 	});
-
 	//查是否有该用户
-
 	if(id.user) {
 		var sql = 'SELECT * FROM user where user="' + id.user + '"';
 		connection.query(sql, function(err, result) {
 			if(err) throw err;
 			if(result == "") {
-				add(res, id)
-				console.log('开始注册...')
+				add(res, id);
+				console.log('开始注册...');
 			} else {
-				console.log('已存在账号！请勿注册！')
+				console.log('已存在账号！请勿注册！');
 				res.send({
 					message: '已存在账号！请勿注册！'
 				});
@@ -26,7 +24,6 @@ var addUser = function(res, id) {
 			}
 		});
 	}
-
 }
 
 function add(res, id) {
@@ -40,18 +37,20 @@ function add(res, id) {
 	addSqlParams.push(id.lastTime)
 	connection.query(addSql, addSqlParams, function(err, result) {
 		if(err) {
+			console.log('注册失败...');
+			
 			res.send({
 				message: '注册失败！'
 			});
 		} else {
-			console.log('注册成功...')
+			console.log('注册成功...');
 			var data={
 					message:'登陆成功！',
 					code:'200',
 					}
 			res.send(data);
 		}
-	})
+	});
 }
 
 module.exports = addUser;

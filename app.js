@@ -13,30 +13,36 @@ var search = require('./routes/login/search');
 var wzarticle = require('./routes/writing/article');
 var wzsearch = require('./routes/writing/search');
 //session
-
-
 var parseurl = require('parseurl')
 var session = require('express-session')
-
+//cors
+var cors = require('cors')
 var app = express();
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
-}))
 
+
+
+
+app.use(session({
+  secret: 'keyboard cat',cookie: { maxAge: 60000 }
+  
+}))
+app.use(cors({
+    origin:['http://localhost:8236'],
+    methods:['GET','POST'],
+//  alloweHeaders:['Conten-Type','Authorization'],
+    credentials: true // enable set cookie
+}));
 //跨域设置
-app.all('*', function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-	res.header("X-Powered-By", ' 3.2.1')
-	res.header("Content-Type", "application/json;charset=utf-8");
-	next();
-});
+//app.all('*', function(req, res, next) {
+//	res.header("Access-Control-Allow-Origin", "*");
+//	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+//	res.header("X-Powered-By", ' 3.2.1')
+//	res.header("Content-Type", "application/json;charset=utf-8");
+//	next();
+//});
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+
 
 app.use(logger('dev'));
 app.use(express.json());
