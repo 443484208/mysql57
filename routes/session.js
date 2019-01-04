@@ -19,10 +19,14 @@ var sessionViews = function(res, body) {
 					message: '登陆超时！',
 					code: '400',
 				};
+				res.send(datas);
+				console.log('登录过期！');
+				
 				resolve(false);
 			} else {
 				resolve(true);
 				console.log('验证成功！');
+				console.log(result);
 			}
 		});
 	});

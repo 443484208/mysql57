@@ -12,7 +12,7 @@ var write = function(res, req, id) {
 		pageIndex=Number(id.pageSize)+1;
 		pageSize=id.pageSize*id.pageIndex;
 	}else{
-		pageIndex=1;
+		pageIndex=0;
 		pageSize=id.pageSize;
 	}
 	//获取文章
@@ -31,10 +31,10 @@ var write = function(res, req, id) {
 			console.log('已经获取到一共'+results+'条信息...准备开始条件查询...')
 		}
 	});
-	console.log('pageIndex=',pageIndex)
-	console.log('pageSize=',pageSize)
+	console.log('pageIndex=',pageIndex);
+	console.log('pageSize=',pageSize);
 	//	if(id.user) {
-	var sql = 'SELECT * FROM article where isDelect=0 order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
+	var sql = 'SELECT user,title,modificationtime,id,label,look,comment FROM article where isDelect=0 order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
 
 	connection.query(sql, function(err, result) {
 		if(err) throw err;
@@ -47,6 +47,7 @@ var write = function(res, req, id) {
 			console.log('没有文章...')
 		} else {
 			console.log('已经获取到内容...准备返回...')
+			console.log('result=',result);
 			search(result, res, results,id)
 
 		}

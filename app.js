@@ -12,12 +12,17 @@ var search = require('./routes/login/search');
 //文章
 var wzarticle = require('./routes/writing/article');
 var wzsearch = require('./routes/writing/search');
+var wzdetails = require('./routes/writing/details');
 //session
 var parseurl = require('parseurl')
 var session = require('express-session')
+//上传图片
+
+var upimg = require('./routes/updata/upimg');
 //cors
 var cors = require('cors')
 var app = express();
+
 
 
 
@@ -27,7 +32,7 @@ app.use(session({
   
 }))
 app.use(cors({
-    origin:['http://localhost:8236'],
+    origin:['http://localhost:3333'],
     methods:['GET','POST'],
 //  alloweHeaders:['Conten-Type','Authorization'],
     credentials: true // enable set cookie
@@ -71,6 +76,8 @@ app.use('/search', search);
 //文章
 app.use('/wz/article', wzarticle);
 app.use('/wz/search', wzsearch);
+app.use('/up/upimg', upimg);
+app.use('/wz/details', wzdetails);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

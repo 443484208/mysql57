@@ -28,12 +28,10 @@ var addUser = function(res, id) {
 
 function add(res, id) {
 	//新增
-	var addSql = 'INSERT INTO user(age,user,password,email,lastTime) VALUES(?,?,?,?,?)';
+	var addSql = 'INSERT INTO user(user,password,lastTime) VALUES(?,?,?)';
 	var addSqlParams = [];
-	addSqlParams.push(id.age)
 	addSqlParams.push(id.user)
 	addSqlParams.push(id.password)
-	addSqlParams.push(id.email)
 	addSqlParams.push(id.lastTime)
 	connection.query(addSql, addSqlParams, function(err, result) {
 		if(err) {
