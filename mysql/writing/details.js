@@ -35,12 +35,27 @@ var login = function(res,req, id) {
 							look: result[0].look,
 						}
 					};
+					updatelook(res,id.id,result[0].look)
 					res.send(data);
 			}
 		});
 	}
 };
+//数量
+function updatelook(res, id,look) {
+	var sql = 'UPDATE article SET look = "'+ (Number(look)+1 )+'" WHERE id ="'+ id +'";';
 
+	connection.query(sql, function(err, result) {
+		if(err) throw err;
+		if(result == "") {
+		} else {
+			console.log('look+1');
+		
+			
+		}
+	});
+
+}
 
 
 

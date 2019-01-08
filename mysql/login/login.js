@@ -19,6 +19,7 @@ var login = function(res, req, id) {
 	if(id.user) {
 		var sql = 'SELECT * FROM user where user="' + id.user + '"';
 		connection.query(sql, function(err, result) {
+			console.log(result)
 			if(result == "") {
 				console.log('登陆验证...');
 				console.log('没有该账号！请注册后登陆！');
@@ -32,7 +33,7 @@ var login = function(res, req, id) {
 				console.log('返回数据...登陆成功！');
 				var session = randomString(8);
 				console.log('生成随机数=', session);
-				
+				console.log(result)
 				console.log('色素随便=', req.session.views);
 				if(result[0].password == id.password) {
 					var data = {
