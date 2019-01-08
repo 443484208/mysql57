@@ -13,6 +13,9 @@ var search = require('./routes/login/search');
 var wzarticle = require('./routes/writing/article');
 var wzsearch = require('./routes/writing/search');
 var wzdetails = require('./routes/writing/details');
+var wzarticlereview = require('./routes/writing/articlereview');
+var wzwriteComments = require('./routes/writing/writeComments');
+
 //session
 var parseurl = require('parseurl')
 var session = require('express-session')
@@ -78,6 +81,8 @@ app.use('/wz/article', wzarticle);
 app.use('/wz/search', wzsearch);
 app.use('/up/upimg', upimg);
 app.use('/wz/details', wzdetails);
+app.use('/wz/articlereview', wzarticlereview);
+app.use('/wz/writeComments', wzwriteComments);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
