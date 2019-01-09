@@ -28,7 +28,6 @@ var login = function(res,req, id) {
 						code: '200',
 						data: {
 							user: result[0].user,
-							user: result[0].user,
 							text: result[0].text,
 							title: result[0].title,
 							modificationtime: result[0].modificationtime,

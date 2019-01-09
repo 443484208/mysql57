@@ -54,7 +54,7 @@ function add(res, id) {
 							id: id.id,
 							count: 0,
 							comments: '',
-							userAuthor:id.user
+							userAuthor:id.userAuthor
 						}
 					};
 
