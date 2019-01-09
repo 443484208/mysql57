@@ -28,11 +28,12 @@ var addUser = function(res, id) {
 
 function add(res, id) {
 	//新增
-	var addSql = 'INSERT INTO user(user,password,lastTime) VALUES(?,?,?)';
+	var addSql = 'INSERT INTO user(user,password,lastTime,email) VALUES(?,?,?,?)';
 	var addSqlParams = [];
 	addSqlParams.push(id.user)
 	addSqlParams.push(id.password)
 	addSqlParams.push(id.lastTime)
+	addSqlParams.push(id.email)
 	connection.query(addSql, addSqlParams, function(err, result) {
 		if(err) {
 			console.log('注册失败...');

@@ -24,8 +24,7 @@ var login = function(res, req, id) {
 			} else {
 				console.log('查找文章id成功...');
 				console.log('正在录入数据数据...');
-				console.log('id=',id)
-				updatelook(res,id)
+				updatelook(res,id.id,id.list,id)
 				
 
 			}
@@ -33,10 +32,25 @@ var login = function(res, req, id) {
 	}
 };
 //数量
-function updatelook(res, id) {
-				console.log('id.id=',id.id)
+function updatelook(res, id,list,commentNumber) {
+
+	list="'"+list+"'"
+
 	
-	var sql = 'UPDATE articlereview SET comments = ' + id.list + ' WHERE id ="' + (id.id +"")+ '";';
+	var sql = 'UPDATE articlereview SET comments = ' + list + ' WHERE id ="'+id+ '"';
+
+	connection.query(sql, function(err, result) {
+		if(err) throw err;
+		if(result == "") {} else {
+			console.log('更新成功！');
+			updateCommentNumber(res,commentNumber);
+		}
+	});
+
+}
+function updateCommentNumber(res, id) {
+
+	var sql = 'UPDATE article SET comment = ' + id.commentNumber + ' WHERE id ="' +id.articleId +'"';
 
 	connection.query(sql, function(err, result) {
 		if(err) throw err;
@@ -52,5 +66,4 @@ function updatelook(res, id) {
 	});
 
 }
-
 module.exports = login;

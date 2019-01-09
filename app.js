@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var addUserRouter = require('./routes/login/addUser');
 var login = require('./routes/login/login');
 var search = require('./routes/login/search');
+var retrieve = require('./routes/login/retrieve');
+
 //文章
 var wzarticle = require('./routes/writing/article');
 var wzsearch = require('./routes/writing/search');
@@ -76,6 +78,7 @@ app.use('/', indexRouter);
 app.use('/addUser', addUserRouter);
 app.use('/login', login);
 app.use('/search', search);
+app.use('/retrieve', retrieve);
 //文章
 app.use('/wz/article', wzarticle);
 app.use('/wz/search', wzsearch);

@@ -28,7 +28,7 @@ var login = function(res,req, id) {
 							userAuthor: result[0].userAuthor,
 						}
 					};
-					res.send(data);
+			    res.send(data);
 			}
 		});
 	}
@@ -62,6 +62,7 @@ function add(res, id) {
 		}
 	});
 }
+
 
 
 module.exports = login;
