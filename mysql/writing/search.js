@@ -2,6 +2,7 @@ var connection = require('./../index.js');
 var results;
 var pageIndex;
 var pageSize;
+var count;
 var write = function(res, req, id) {
 	connection.connect(function(err) {
 		if(err) {} else {
@@ -16,7 +17,14 @@ var write = function(res, req, id) {
 		pageSize=id.pageSize;
 	}
 	//获取文章
-	var count = 'select count(*) from article where isDelect=0';
+	if(id.option=='0'){
+	count = 'select count(*) from article where isDelect=0 and `option`='+id.option;
+		
+	}else{
+	count = 'select count(*) from article where isDelect=0 and `option`='+id.option;
+		
+	}
+
 	connection.query(count, function(err, result) {
 		if(err) throw err;
 		if(result == "") {
@@ -34,7 +42,7 @@ var write = function(res, req, id) {
 	console.log('pageIndex=',pageIndex);
 	console.log('pageSize=',pageSize);
 	//	if(id.user) {
-	var sql = 'SELECT user,title,modificationtime,id,label,look,comment FROM article where isDelect=0 order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
+	var sql = 'SELECT user,title,modificationtime,id,label,look,comment FROM article where isDelect=0 and `option`='+id.option+' order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
 
 	connection.query(sql, function(err, result) {
 		if(err) throw err;
