@@ -3,6 +3,7 @@ var results;
 var pageIndex;
 var pageSize;
 var count;
+var sql ;
 var write = function(res, req, id) {
 	connection.connect(function(err) {
 		if(err) {} else {
@@ -10,18 +11,22 @@ var write = function(res, req, id) {
 		}
 	});
 	if(id.pageIndex>1){
-		pageIndex=Number(id.pageSize)+1;
-		pageSize=id.pageSize*id.pageIndex;
+		pageIndex=(Number(id.pageIndex)-1)*10+1;
+		pageSize=Number(id.pageSize);
 	}else{
-		pageIndex=0;
+		pageIndex=1;
 		pageSize=id.pageSize;
 	}
+	console.log('pageIndex=',pageIndex)
+	console.log('pageSize=',pageSize)
 	//获取文章
 	if(id.option=='0'){
 	count = 'select count(*) from article where isDelect=0 and `option`='+id.option;
+	sql= 'SELECT user,title,modificationtime,id,label,look,comment FROM article where isDelect=0 and `option`='+id.option+' order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
 		
 	}else{
-	count = 'select count(*) from article where isDelect=0 and `option`='+id.option;
+	count = 'select count(*) from article where isDelect=0 and user="'+id.user+'"';
+	sql= 'SELECT user,title,modificationtime,id,label,look,comment FROM article where isDelect=0 and `user`="'+id.user+'" order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
 		
 	}
 
@@ -42,7 +47,7 @@ var write = function(res, req, id) {
 	console.log('pageIndex=',pageIndex);
 	console.log('pageSize=',pageSize);
 	//	if(id.user) {
-	var sql = 'SELECT user,title,modificationtime,id,label,look,comment FROM article where isDelect=0 and `option`='+id.option+' order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
+
 
 	connection.query(sql, function(err, result) {
 		if(err) throw err;
