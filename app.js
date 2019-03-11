@@ -23,12 +23,15 @@ var parseurl = require('parseurl')
 var session = require('express-session')
 //上传图片
 
+//websocket
+var ws = require("nodejs-websocket");
+console.log("开始建立连接...")
+
+
 var upimg = require('./routes/updata/upimg');
 //cors
 var cors = require('cors')
 var app = express();
-
-
 
 
 
@@ -37,41 +40,16 @@ app.use(session({
   
 }))
 app.use(cors({
-    origin:['http://localhost:3333'],
+    origin:['http://127.0.0.1:8848'],
     methods:['GET','POST'],
 //  alloweHeaders:['Conten-Type','Authorization'],
     credentials: true // enable set cookie
 }));
-//跨域设置
-//app.all('*', function(req, res, next) {
-//	res.header("Access-Control-Allow-Origin", "*");
-//	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-//	res.header("X-Powered-By", ' 3.2.1')
-//	res.header("Content-Type", "application/json;charset=utf-8");
-//	next();
-//});
-// view engine setup
-
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-//使用中间件session
-//app.use(session({
-// cookieName: 'session',
-// secret: 'random_string_goes_here',
-// duration: 30 * 60 * 1000,
-// activeDuration: 5 * 60 * 1000,
-//}));
-
-
-
-
-
-
 
 app.use('/', indexRouter);
 //登陆模块接口
@@ -101,6 +79,36 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+var game1 = null,game2 = null , game1Ready = false , game2Ready = false;
+var server = ws.createServer(function(conn){
+    conn.on("text", function (str) {
+        console.log("收到的信息为:"+str)
+        if(str==="game1"){
+            game1 = conn;
+            game1Ready = true;
+            conn.sendText("success");
+        }
+        if(str==="game2"){
+            game2 = conn;
+            game2Ready = true;
+        }
+
+        if(game1Ready&&game2Ready){
+            game2.sendText(str);
+        }
+
+        conn.sendText(str)
+    })
+    conn.on("close", function (code, reason) {
+        console.log("关闭连接")
+    });
+    conn.on("error", function (code, reason) {
+        console.log("异常关闭")
+    });
+}).listen(3001)
+console.log("WebSocket建立完毕")
+
 console.log('成功开启。。。')
 
 module.exports = app;
