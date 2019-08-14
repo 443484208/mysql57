@@ -21,7 +21,6 @@ var sessionViews = function(res, body) {
 				};
 				res.send(datas);
 				console.log('登录过期！');
-				
 				resolve(false);
 			} else {
 				resolve(true);

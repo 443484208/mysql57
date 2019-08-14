@@ -4,7 +4,6 @@ var addUser = function(res, id) {
 	connection.connect(function(err) {
 		if(err) {} else {
 			console.log("数据库连接成功");
-
 		}
 	});
 	//查是否有该用户
@@ -20,7 +19,6 @@ var addUser = function(res, id) {
 				res.send({
 					message: '已存在账号！请勿注册！'
 				});
-
 			}
 		});
 	}

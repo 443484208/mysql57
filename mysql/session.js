@@ -1,15 +1,15 @@
 var connection = require('./index.js');
 var write = function(res, req, id) {
 	connection.connect(function(err) {
-		if(err) {} else {
+		if (err) {} else {
 			console.log("数据库连接成功");
 		}
 	});
-	var sql = 'SELECT * FROM article where isDelect=0 order by modificationtime is null, modificationtime ASC LIMIT  ' + pageIndex + ',' + pageSize;
-
+	var sql = 'SELECT * FROM article where isDelect=0 order by modificationtime is null, modificationtime ASC LIMIT  ' +
+		pageIndex + ',' + pageSize;
 	connection.query(sql, function(err, result) {
-		if(err) throw err;
-		if(result == "") {
+		if (err) throw err;
+		if (result == "") {
 			var data = {
 				message: '没有文章！',
 				code: '404',
@@ -18,15 +18,12 @@ var write = function(res, req, id) {
 			console.log('没有文章...')
 		} else {
 			console.log('已经获取到内容...准备返回...')
-			search(result, res, results,id)
-
+			search(result, res, results, id)
 		}
 	});
-	//	}
-
 };
 
-function search(result, res, results,id) {
+function search(result, res, results, id) {
 	var data = {
 		totalCount: result.length,
 		count: results,

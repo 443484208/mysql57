@@ -9,8 +9,7 @@ router.get('/', function(req, res, next) {
 	sessionViews(res, req.query).then(function(data) {
 		if(data) {
 			search(res, req, req.query);
-
 		} else {}
-	})
+	});
 });
 module.exports = router;
