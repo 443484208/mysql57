@@ -27,6 +27,13 @@ var login = function(res, req, id) {
 				updatelook(res, retrieve, id.user, id.password)
 			}
 		});
+	}else{
+		console.log('没有填写用户！')
+		var data = {
+			message: '修改失败,没有填写账号',
+			code: '404',
+		}
+		res.send(data);
 	}
 };
 

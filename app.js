@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 //登陆模块
@@ -23,10 +23,23 @@ var parseurl = require('parseurl')
 var session = require('express-session')
 //上传图片
 var upimg = require('./routes/updata/upimg');
+//测试token
+var token = require('./routes/text/token');
+
 //cors
 var cors = require('cors')
 var app = express();
-
+//日志管理
+var morgan = require('morgan');
+var FileStreamRotator = require('file-stream-rotator')
+var logDirectory = path.join(__dirname, 'log');
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYY-MM-DD',
+  filename: path.join(logDirectory, 'access-%DATE%.log'),
+  frequency: 'daily',
+  verbose: false
+})
+app.use(morgan('combined', {stream: accessLogStream}))
 
 
 app.use(session({
@@ -34,7 +47,6 @@ app.use(session({
 	cookie: {
 		maxAge: 60000
 	}
-
 }))
 app.use(cors({
 	origin: ['http://127.0.0.1:8848'],
@@ -43,7 +55,7 @@ app.use(cors({
 	credentials: true // enable set cookie
 }));
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
 	extended: false
@@ -63,7 +75,8 @@ app.use('/up/upimg', upimg);
 app.use('/wz/details', wzdetails);
 app.use('/wz/articlereview', wzarticlereview);
 app.use('/wz/writeComments', wzwriteComments);
-
+//测试token
+app.use('/text/token',token)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	next(createError(404));
@@ -77,7 +90,5 @@ app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error');
 });
-app.listen(3001, () =>
-	console.log('成功开启3001。。。')
-)
+
 module.exports = app;

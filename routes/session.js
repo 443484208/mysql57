@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-	host: 'localhost',
+	host: 'http://134.175.9.97:3306/',
 	user: 'root',
 	password: '123456',
 	port: '3306',
@@ -13,7 +13,6 @@ var sessionViews = function(res, body) {
 	var p = new Promise(function(resolve, reject) {
 		//做一些异步操作
 		connection.query(sql, function(err, result) {
-			if(err) throw err;
 			if(result == "") {
 				var datas = {
 					message: '登陆超时！',

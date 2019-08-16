@@ -47,6 +47,12 @@ var login = function(res, req, id) {
 						}
 					};
 					search(res, id, session, data);
+					//					if(req.session.views) {
+					//						req.session.views++
+					//							res.setHeader('Content-Type', 'text/html');
+					//					} else {
+					//						req.session.views = session;
+					//					}
 				} else {
 					var data = {
 						message: '密码不对！',
@@ -57,11 +63,6 @@ var login = function(res, req, id) {
 				}
 			}
 		});
-	}else{
-		console.log('登录请输入账号！');
-		res.send({
-			message:'登录请输入账号'
-		})
 	}
 }
 

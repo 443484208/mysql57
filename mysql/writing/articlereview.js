@@ -30,6 +30,12 @@ var login = function(res, req, id) {
 				res.send(data);
 			}
 		});
+	}else{
+		console.log('请输入账号名');
+		res.send({
+			message:'没有找到，缺少账号名'
+		})
+		
 	}
 };
 //数量

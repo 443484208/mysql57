@@ -25,6 +25,11 @@ var login = function(res, req, id) {
 				updatelook(res, id.articleId, id.list, id)
 			}
 		});
+	}else{
+		console.log('请输入账号');
+		res.send({
+			message:'请输入账号！'
+		})
 	}
 };
 //数量

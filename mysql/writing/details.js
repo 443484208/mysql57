@@ -37,6 +37,11 @@ var login = function(res, req, id) {
 				res.send(data);
 			}
 		});
+	}else{
+		console.log('没有账号，搜索失败！');
+		res.send({
+			message:'没有文章！'
+		})
 	}
 };
 //数量

@@ -21,6 +21,11 @@ var addUser = function(res, id) {
 				});
 			}
 		});
+	}else{
+		console.log('请输入要申请的账号！');
+		res.send({
+			message:'请输入要申请的账号'
+		})
 	}
 }
 

@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "express-session": "^1.15.6",
+    "file-stream-rotator": "^0.4.1",
+    "log4js": "^5.0.0",
     "mysql": "^2.16.0"
   }
 }
