@@ -2,8 +2,9 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-// var logger = require('morgan');
-
+// 模板
+var ejs = require('ejs'); 
+// 路由
 var indexRouter = require('./routes/index');
 //登陆模块
 var addUserRouter = require('./routes/login/addUser');
@@ -62,8 +63,15 @@ app.use(express.urlencoded({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-//登陆模块接口
+// ejs
+app.engine('html', ejs.__express);
+  // <%=KeyName%>
+app.set('view engine', 'html');
+// 路由
+app.use('/ss', indexRouter);
+
+
+//登陆模块接口 
 app.use('/addUser', addUserRouter);
 app.use('/login', login);
 app.use('/search', search);

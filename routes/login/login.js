@@ -8,6 +8,7 @@ var sessionViews = require('./../session.js');
 router.post('/', function(req, res, next) {
 	sessionViews(res, req.body).then(function(data) {
 		if (data) {
+			console.log(data)
 			login(res, req, req.body);
 		} else {}
 	})

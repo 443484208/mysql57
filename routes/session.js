@@ -22,9 +22,8 @@ var sessionViews = function(res, body) {
 				console.log('登录过期！');
 				resolve(false);
 			} else {
-				resolve(true);
 				console.log('验证成功！');
-				console.log(result);
+				resolve(true);
 			}
 		});
 	});
