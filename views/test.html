@@ -5,6 +5,17 @@
 		<title></title>
 	</head>
 	<body>
-		<h1><%=title%></h1>
+		<h1>
+			<%=title%>
+		</h1>
+		<form action="http://localhost:3000/upload" οnsubmit="validate();" method="post" enctype="multipart/form-data">
+			<input name="fileUpload" type="file" />
+			<button type="submit">上传</button>
+		</form>
+		<script>
+			function validate(){
+				return true
+			}
+		</script>
 	</body>
 </html>

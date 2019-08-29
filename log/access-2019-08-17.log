@@ -77,3 +77,8 @@
 ::1 - - [17/Aug/2019:06:49:39 +0000] "GET /test/ HTTP/1.1" 500 1194 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
 ::1 - - [17/Aug/2019:06:57:04 +0000] "GET /test/ HTTP/1.1" 200 125 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
 ::1 - - [17/Aug/2019:06:58:09 +0000] "GET /test/ HTTP/1.1" 200 133 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+::1 - - [17/Aug/2019:07:13:06 +0000] "GET /test/ HTTP/1.1" 404 1206 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+::1 - - [17/Aug/2019:07:13:11 +0000] "GET /ss/test/ HTTP/1.1" 200 133 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+::1 - - [17/Aug/2019:07:36:36 +0000] "GET /ss/test/ HTTP/1.1" 200 125 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+::1 - - [17/Aug/2019:07:36:37 +0000] "GET /ss/test/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+::1 - - [17/Aug/2019:07:36:46 +0000] "GET /ss/test/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"

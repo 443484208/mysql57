@@ -13,7 +13,15 @@ var sessionViews = function(res, body) {
 	var p = new Promise(function(resolve, reject) {
 		//做一些异步操作
 		connection.query(sql, function(err, result) {
-			if(result == "") {
+			if(err){
+				console.log('err:',err);
+				var datas = {
+					message: '链接服务器失败！',
+					code: '404',
+				};
+				res.send(datas);
+				resolve(false);
+			}else if(result == "") {
 				var datas = {
 					message: '登陆超时！',
 					code: '400',

@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 // 模板
-var ejs = require('ejs'); 
+var ejs = require('ejs');
 // 路由
 var indexRouter = require('./routes/index');
 //登陆模块
@@ -35,12 +35,14 @@ var morgan = require('morgan');
 var FileStreamRotator = require('file-stream-rotator')
 var logDirectory = path.join(__dirname, 'log');
 var accessLogStream = FileStreamRotator.getStream({
-  date_format: 'YYYY-MM-DD',
-  filename: path.join(logDirectory, 'access-%DATE%.log'),
-  frequency: 'daily',
-  verbose: false
+	date_format: 'YYYY-MM-DD',
+	filename: path.join(logDirectory, 'access-%DATE%.log'),
+	frequency: 'daily',
+	verbose: false
 })
-app.use(morgan('combined', {stream: accessLogStream}))
+app.use(morgan('combined', {
+	stream: accessLogStream
+}))
 
 
 app.use(session({
@@ -63,12 +65,20 @@ app.use(express.urlencoded({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ejs
+// ejs 改成html模板
 app.engine('html', ejs.__express);
-  // <%=KeyName%>
+// <%=KeyName%>
 app.set('view engine', 'html');
 // 路由
 app.use('/ss', indexRouter);
+
+
+//学习
+//路由 增删查  单点登录  日志 加密 
+//上传。。。
+var routes = require('./routes/upload/upload');
+
+app.use('/', routes);
 
 
 //登陆模块接口 
@@ -84,7 +94,7 @@ app.use('/wz/details', wzdetails);
 app.use('/wz/articlereview', wzarticlereview);
 app.use('/wz/writeComments', wzwriteComments);
 //测试token
-app.use('/text/token',token)
+app.use('/text/token', token)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	next(createError(404));
