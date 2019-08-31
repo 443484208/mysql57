@@ -4,7 +4,7 @@ dist/
 npm-debug.log
 yarn-error.log
 package-lock.json
-uoloads/
+uloads/
 
 # Editor directories and files
 .idea
