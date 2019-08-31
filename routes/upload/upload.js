@@ -34,7 +34,17 @@ router.post('/upload', upload.fields([{
 	var files = [];
 	for (var key in req.files) {
 		for (var i = 0; i < req.files[key].length; i++) {
-			files.push(req.files[key][i]);
+			let originalname=req.files[key][i].originalname;
+			let data=req.files[key][i];
+			// fs.exists('uploads/' + originalname, function(exists) {
+			// 	if (exists == true) {
+			// 		console.log('已有重复文件:' +originalname);
+			// 	} else {
+			// 		files.push(data);
+			// 	}
+			// });
+			files.push(data);
+
 		}
 	};
 	console.log(files)
@@ -72,6 +82,7 @@ router.post('/upload', upload.fields([{
 	result.then(r => {
 		res.json({
 			msg: '上传成功',
+			code: '200'
 		});
 	}).catch(err => {
 		res.json({
@@ -81,3 +92,4 @@ router.post('/upload', upload.fields([{
 })
 
 module.exports = router;
+
