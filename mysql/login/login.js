@@ -57,11 +57,11 @@ var login = function(res, req, id) {
 				}
 			}
 		});
-	}else{
+	} else {
 		console.log('登录请输入账号！');
-		console.log('id:',id);
+		console.log('id:', id);
 		res.send({
-			message:'登录请输入账号'
+			message: '登录请输入账号'
 		})
 	}
 }

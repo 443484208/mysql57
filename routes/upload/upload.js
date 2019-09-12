@@ -8,7 +8,6 @@ const UPLOAD_PATH = './uploads';
 var upload = multer({
 	dest: UPLOAD_PATH
 });
-
 //<pre name="code" class="javascript">//单个文件上传
 //upload.single("image") //image为文件name
 //获得文件:req.file
@@ -44,14 +43,32 @@ router.post('/upload', upload.fields([{
 			// 	}
 			// });
 			files.push(data);
-
 		}
 	};
-	console.log(files)
 	const response = [];
 	const result = new Promise((resolve, reject) => {
-		files.map((v) => {
+		var exceed=[];
+		files.map((v,i) => {
 			fs.readFile(v.path, function(err, data) {
+				if (((v.size / 1024) / 100).toFixed(2) > 50) {
+					exceed=v;
+					console.log('exceedkk',exceed)
+				} else {
+					fs.writeFile(`${UPLOAD_PATH}/${v.originalname}`, data, function(err, data) {
+						const result = {
+							file: v,
+						};
+						if (err) {
+							reject(err);
+						} else {
+							// resolve('成功');
+						};
+					});
+				}
+				if((i+1)==files.length){
+					console.log('exceedkkk',exceed)
+					resolve(exceed);
+				}
 				fs.unlink(`${UPLOAD_PATH}/${v.filename}`, (err) => {
 					if (err) {
 						console.log(err);
@@ -59,32 +76,17 @@ router.post('/upload', upload.fields([{
 						console.log('delete ok:' + v.filename);
 					}
 				});
-				if (((v.size / 1024) / 100).toFixed(2) > 50) {
-					reject("文件超过50M")
-				} else {
-					fs.writeFile(`${UPLOAD_PATH}/${v.originalname}`, data, function(err, data) {
-						console.log()
-						const result = {
-							file: v,
-						};
-						if (err) {
-							reject(err);
-						} else {
-							console.log(data);
-							console.log(err);
-						};
-						resolve('成功');
-					});
-				}
 			});
 		});
 	});
 	result.then(r => {
+		console.log('r:',r)
 		res.json({
 			msg: '上传成功',
 			code: '200'
 		});
 	}).catch(err => {
+		console.log("err:",err)
 		res.json({
 			err
 		});
@@ -92,4 +94,3 @@ router.post('/upload', upload.fields([{
 })
 
 module.exports = router;
-

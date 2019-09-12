@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "express-session": "^1.15.6",
+    "express-status-monitor": "^1.2.6",
     "file-stream-rotator": "^0.4.1",
     "log4js": "^5.0.0",
     "multer": "^1.4.2",
