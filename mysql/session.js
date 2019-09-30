@@ -11,7 +11,7 @@ var write = function(res, req, id) {
 		if (err) throw err;
 		if (result == "") {
 			var data = {
-				message: '没有文章！',
+				message: '没有文章!',
 				code: '404',
 			}
 			res.send(data);
@@ -31,7 +31,7 @@ function search(result, res, results, id) {
 		pageSize: id.pageSize,
 		innerList: result,
 		code: 200,
-		message: '获取成功！'
+		message: '获取成功!'
 	}
 	res.send(data);
 }

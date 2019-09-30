@@ -16,21 +16,21 @@ var sessionViews = function(res, body) {
 			if(err){
 				console.log('err:',err);
 				var datas = {
-					message: '链接服务器失败！',
+					message: '链接服务器失败!',
 					code: '404',
 				};
 				res.send(datas);
 				resolve(false);
 			}else if(result == "") {
 				var datas = {
-					message: '登陆超时！',
+					message: '登陆超时!',
 					code: '400',
 				};
 				res.send(datas);
-				console.log('登录过期！');
+				console.log('登录过期!');
 				resolve(false);
 			} else {
-				console.log('验证成功！');
+				console.log('验证成功!');
 				resolve(true);
 			}
 		});

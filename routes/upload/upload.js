@@ -4,10 +4,48 @@ var multer = require('multer');
 var fs = require('fs');
 
 const UPLOAD_PATH = './uploads';
+//获取项目工程里的图片
+var fs = require('fs'); //引用文件系统模块
+var image = require("imageinfo"); //引用imageinfo模块
 
+function readFileList(path, filesList) {
+	var files = fs.readdirSync(path);
+	files.forEach(function(itm, index) {
+		var stat = fs.statSync(path + itm);
+		if (stat.isDirectory()) {
+			//递归读取文件
+			readFileList(path + itm + "/", filesList)
+		} else {
+			var obj = {}; //定义一个对象存放文件的路径和名字
+			obj.path = path; //路径
+			obj.filename = itm //名字
+			filesList.push(obj);
+		}
+	})
+}
+var getFiles = {
+	//获取文件夹下的所有文件
+	getFileList: function(path) {
+		var filesList = [];
+		readFileList(path, filesList);
+		console.log("filesList:",filesList)
+		return filesList;
+	},
+	//获取文件夹下的所有图片
+	getImageFiles: function(path) {
+		var imageList = [];
+		this.getFileList(path).forEach((item) => {
+			var ms = image(fs.readFileSync(item.path + item.filename));
+			ms.mimeType && (imageList.push(item.filename))
+		});
+		return imageList;
+	}
+};
 var upload = multer({
 	dest: UPLOAD_PATH
 });
+var getFf = getFiles.getFileList("./uploads/");
+// var bigSize
 //<pre name="code" class="javascript">//单个文件上传
 //upload.single("image") //image为文件name
 //获得文件:req.file
@@ -30,30 +68,44 @@ router.post('/upload', upload.fields([{
 }, {
 	name: 'sssss'
 }]), function(req, res, next) {
-	var files = [];
+	var files=[];
+	var fileArray =[];
 	for (var key in req.files) {
 		for (var i = 0; i < req.files[key].length; i++) {
-			let originalname=req.files[key][i].originalname;
-			let data=req.files[key][i];
-			// fs.exists('uploads/' + originalname, function(exists) {
-			// 	if (exists == true) {
-			// 		console.log('已有重复文件:' +originalname);
-			// 	} else {
-			// 		files.push(data);
-			// 	}
-			// });
-			files.push(data);
+			let originalname = req.files[key][i].originalname;
+			let data = req.files[key][i];
+			getFf.map(i => {
+				if (i.filename == data.originalname) {
+					data.originalname = '-' + data.originalname
+				}
+			})
+			console.log('data:', data)
+			if (((data.size / 1024) / 100).toFixed(2) > 50) {
+				let a={'name':data.originalname}
+				fileArray.push(a);
+			} else {
+				files.push(data);
+			}
+			fs.unlink(`${data.destination}/${data.filename}`, (err) => {
+				if (err) {
+					console.log(err);
+				} else {
+					console.log('delete ok:' + data.filename);
+				}
+			});
 		}
 	};
-	const response = [];
-	const result = new Promise((resolve, reject) => {
-		var exceed=[];
-		files.map((v,i) => {
-			fs.readFile(v.path, function(err, data) {
-				if (((v.size / 1024) / 100).toFixed(2) > 50) {
-					exceed=v;
-					console.log('exceedkk',exceed)
-				} else {
+	if(fileArray.length>0){
+		console.log('fileArray:',fileArray)
+		res.json({
+			fileArray
+		});
+	}else{
+		const response = [];
+		const result = new Promise((resolve, reject) => {
+			console.log('5')
+			files.map((v, i) => {
+				fs.readFile(v.path, function(err, data) {
 					fs.writeFile(`${UPLOAD_PATH}/${v.originalname}`, data, function(err, data) {
 						const result = {
 							file: v,
@@ -61,36 +113,32 @@ router.post('/upload', upload.fields([{
 						if (err) {
 							reject(err);
 						} else {
-							// resolve('成功');
+							resolve('成功');
 						};
 					});
-				}
-				if((i+1)==files.length){
-					console.log('exceedkkk',exceed)
-					resolve(exceed);
-				}
-				fs.unlink(`${UPLOAD_PATH}/${v.filename}`, (err) => {
-					if (err) {
-						console.log(err);
-					} else {
-						console.log('delete ok:' + v.filename);
-					}
 				});
 			});
 		});
-	});
-	result.then(r => {
-		console.log('r:',r)
-		res.json({
-			msg: '上传成功',
-			code: '200'
+		result.then(r => {
+			res.json({
+				msg: '上传成功',
+				code: '200'
+			});
+		}).catch(err => {
+			console.log("err:", err)
+			res.json({
+				err
+			});
 		});
-	}).catch(err => {
-		console.log("err:",err)
-		res.json({
-			err
-		});
-	});
+	}
+	
 })
 
 module.exports = router;
+
+
+
+// //获取文件夹下的所有图片
+// getFiles.getImageFiles("./public/");
+//获取文件夹下的所有文件
+

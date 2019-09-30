@@ -24,12 +24,12 @@ var write = function(res, req, id) {
 			console.log('新建文章失败...');
 			console.log(err);
 			res.send({
-				message: '新建文章失败！'
+				message: '新建文章失败!'
 			});
 		} else {
 			console.log('新建文章成功...');
 			var data = {
-				message: '新建文章成功！',
+				message: '新建文章成功!',
 				code: '200',
 			};
 			res.send(data);

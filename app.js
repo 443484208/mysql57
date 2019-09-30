@@ -20,8 +20,6 @@ var wzarticlereview = require('./routes/writing/articlereview');
 var wzwriteComments = require('./routes/writing/writeComments');
 
 
-
-
 //session
 var parseurl = require('parseurl')
 var session = require('express-session')
@@ -51,7 +49,7 @@ var accessLogStream = FileStreamRotator.getStream({
 	filename: path.join(logDirectory, 'access-%DATE%.log'),
 	frequency: 'daily',
 	verbose: false,
-	  size: "5M" // its letter denominating the size is case insensitive
+	size: "5M" // its letter denominating the size is case insensitive
 })
 app.use(morgan('combined', {
 	stream: accessLogStream
@@ -82,7 +80,7 @@ app.engine('html', ejs.__express);
 // <%=KeyName%>
 app.set('view engine', 'html');
 // 路由
-app.use('/', indexRouter);
+app.use('/ssss', indexRouter);
 
 // 监控/status
 app.use(require('express-status-monitor')())

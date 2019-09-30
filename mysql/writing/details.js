@@ -15,7 +15,7 @@ var login = function(res, req, id) {
 			if (result == "") {
 				console.log('没有文章...');
 				var data = {
-					message: '没有文章！',
+					message: '没有文章!',
 					code: '666',
 				}
 				res.send(data);
@@ -23,7 +23,7 @@ var login = function(res, req, id) {
 				console.log('查找文章成功...');
 				console.log('返回数据...');
 				var data = {
-					message: '查找成功！',
+					message: '查找成功!',
 					code: '200',
 					data: {
 						user: result[0].user,
@@ -38,9 +38,9 @@ var login = function(res, req, id) {
 			}
 		});
 	}else{
-		console.log('没有账号，搜索失败！');
+		console.log('没有账号，搜索失败!');
 		res.send({
-			message:'没有文章！'
+			message:'没有文章!'
 		})
 	}
 };

@@ -22,22 +22,22 @@ var login = function(res, req, id) {
 			console.log(result)
 			if (result == "") {
 				console.log('登陆验证...');
-				console.log('没有该账号！请注册后登陆！');
+				console.log('没有该账号!请注册后登陆!');
 				var data = {
-					message: '没有该账号！请注册后登陆！',
+					message: '没有该账号!请注册后登陆!',
 					code: '666',
 				}
 				res.send(data);
 			} else {
 				console.log('查找成功...');
-				console.log('返回数据...登陆成功！');
+				console.log('返回数据...登陆成功!');
 				var session = randomString(8);
 				console.log('生成随机数=', session);
 				console.log(result)
 				console.log('色素随便=', req.session.views);
 				if (result[0].password == id.password) {
 					var data = {
-						message: '登陆成功！',
+						message: '登陆成功!',
 						code: '200',
 						data: {
 							age: result[0].age,
@@ -55,10 +55,10 @@ var login = function(res, req, id) {
 					//					}
 				} else {
 					var data = {
-						message: '密码不对！',
+						message: '密码不对!',
 						code: '201',
 					};
-					console.log('密码不对！');
+					console.log('密码不对!');
 					res.send(data);
 				}
 			}

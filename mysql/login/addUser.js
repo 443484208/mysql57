@@ -15,14 +15,14 @@ var addUser = function(res, id) {
 				add(res, id);
 				console.log('开始注册...');
 			} else {
-				console.log('已存在账号！请勿注册！');
+				console.log('已存在账号!请勿注册!');
 				res.send({
-					message: '已存在账号！请勿注册！'
+					message: '已存在账号!请勿注册!'
 				});
 			}
 		});
 	} else {
-		console.log('请输入要申请的账号！');
+		console.log('请输入要申请的账号!');
 		res.send({
 			message: '请输入要申请的账号'
 		})
@@ -41,12 +41,12 @@ function add(res, id) {
 		if (err) {
 			console.log('注册失败...');
 			res.send({
-				message: '注册失败！'
+				message: '注册失败!'
 			});
 		} else {
 			console.log('注册成功...');
 			var data = {
-				message: '登陆成功！',
+				message: '登陆成功!',
 				code: '200',
 			}
 			res.send(data);

@@ -15,7 +15,7 @@ var login = function(res, req, id) {
 			if (result == "") {
 				console.log('没有文章id');
 				var data = {
-					message: '没有该文章id！',
+					message: '没有该文章id!',
 					code: '404',
 				};
 				res.send(data);
@@ -28,7 +28,7 @@ var login = function(res, req, id) {
 	}else{
 		console.log('请输入账号');
 		res.send({
-			message:'请输入账号！'
+			message:'请输入账号!'
 		})
 	}
 };
@@ -39,7 +39,7 @@ function updatelook(res, id, list, commentNumber) {
 	connection.query(sql, function(err, result) {
 		if (err) throw err;
 		if (result == "") {} else {
-			console.log('更新成功！');
+			console.log('更新成功!');
 			updateCommentNumber(res, commentNumber);
 		}
 	});
@@ -52,7 +52,7 @@ function updateCommentNumber(res, id) {
 		if (err) throw err;
 		if (result == "") {} else {
 			var data = {
-				message: '评论成功！',
+				message: '评论成功!',
 				code: '200',
 			};
 			res.send(data);

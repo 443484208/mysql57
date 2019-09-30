@@ -19,7 +19,7 @@ var login = function(res, req, id) {
 				console.log('查找文章成功...');
 				console.log('返回数据...');
 				var data = {
-					message: '查找成功！',
+					message: '查找成功!',
 					code: '200',
 					data: {
 						id: result[0].id,
@@ -51,7 +51,7 @@ function add(res, id) {
 			console.log('注册成功...');
 		} else {
 			var data = {
-				message: '查找成功！',
+				message: '查找成功!',
 				code: '200',
 				data: {
 					id: id.id,

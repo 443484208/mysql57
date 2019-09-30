@@ -15,22 +15,22 @@ var login = function(res, req, id) {
 			if (result == "") {
 				console.log('登陆验证...');
 				var data = {
-					message: '没有该账号！',
+					message: '没有该账号!',
 					code: '666',
 				}
-				console.log('没有该账号！');
+				console.log('没有该账号!');
 				res.send(data);
 			} else {
 				console.log('查找账号成功...');
 				console.log('准备校验邮箱...');
 				if (result[0].email == id.email) {
 					var retrieve = randomString(8)
-					console.log('邮箱正确！...');
+					console.log('邮箱正确!...');
 					updatelook(res, retrieve, id.user)
 				} else {
-					console.log('邮箱不正确！');
+					console.log('邮箱不正确!');
 					var data = {
-						message: '邮箱不正确！',
+						message: '邮箱不正确!',
 						code: '404',
 					};
 					res.send(data);
@@ -38,7 +38,7 @@ var login = function(res, req, id) {
 			}
 		});
 	}else{
-		console.log('请输入需要搜索的账号！');
+		console.log('请输入需要搜索的账号!');
 		res.send({
 			message:'请输入需要搜索的账号!'
 		})
@@ -62,7 +62,7 @@ function updatelook(res, retrieve, user) {
 		if (result == "") {} else {
 			console.log('更新找回随机码')
 			var data = {
-				message: '找回成功！',
+				message: '找回成功!',
 				code: '200',
 				data: {
 					retrieve: retrieve,

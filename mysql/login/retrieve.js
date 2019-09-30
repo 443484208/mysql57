@@ -15,10 +15,10 @@ var login = function(res, req, id) {
 			if (result == "") {
 				console.log('登陆验证...');
 				var data = {
-					message: '修改失败,没有找到该账号！',
+					message: '修改失败,没有找到该账号!',
 					code: '404',
 				}
-				console.log('没有该账号！');
+				console.log('没有该账号!');
 				res.send(data);
 			} else {
 				console.log('查找账号成功...');
@@ -56,7 +56,7 @@ function updatelook(res, retrieve, user, password) {
 		if (result == "") {} else {
 			console.log('更新找回随机码')
 			var data = {
-				message: '更新密码成功！',
+				message: '更新密码成功!',
 				code: '200',
 			};
 			res.send(data);
