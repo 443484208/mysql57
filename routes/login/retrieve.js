@@ -6,10 +6,10 @@ var sessionViews = require('./../session.js');
 //默认 '/urlencoded
 //登陆验证
 router.post('/', function(req, res, next) {
-	sessionViews(res, req.body).then(function(data) {
-		if (data) {
+	// sessionViews(res, req.body).then(function(data) {
+	// 	if (data) {
 			search(res, req, req.body);
-		} else {}
-	});
+	// 	} else {}
+	// });
 });
 module.exports = router;

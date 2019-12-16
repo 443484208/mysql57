@@ -1,5 +1,5 @@
 var connection = require('./../index.js');
-var login = function(res, req, id) {
+var changePassword = function(res, req, id) {
 	connection.connect(function(err) {
 		if (err) {} else {
 			console.log("数据库连接成功");
@@ -20,16 +20,15 @@ var login = function(res, req, id) {
 				}
 				console.log('没有该账号!');
 				res.send(data);
-			}else if(result[0].retrieve){
-				console.log('查找账号成功...');
-				console.log('修改密码成功...');
-				var retrieve = null;
-				updatelook(res, retrieve, id.user, id.password)
+			}else if(result[0].password==id.oldPassword){
+				console.log('查找账号原密码相同...');
+				console.log('开始修改密码...');
+				updatePassword(res, id.user, id.newPassword)
 			} else {
 				console.log(result[0].retrieve)
-				console.log('请先搜索需要找回的账号...');
+				console.log('原密码不一样...');
 				var data = {
-					message: '请先搜索需要找回的账号',
+					message: '原密码不一样',
 					code: '404',
 				}
 				res.send(data);
@@ -45,24 +44,15 @@ var login = function(res, req, id) {
 	}
 };
 
-function randomString(len, charSet) {
-	charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	var randomString = '';
-	for (var i = 0; i < len; i++) {
-		var randomPoz = Math.floor(Math.random() * charSet.length);
-		randomString += charSet.substring(randomPoz, randomPoz + 1);
-	}
-	return randomString;
-};
 
-function updatelook(res, retrieve, user, password) {
+function updatePassword(res, user, password) {
 	console.log(user);
-	var sql = 'UPDATE hong_user SET retrieve ="' + retrieve + '",password="' + password + '" WHERE user="' + user + '";';
+	var sql = 'UPDATE hong_user SET password="' + password + '" WHERE user="' + user + '";';
 	console.log(sql);
 	connection.query(sql, function(err, result) {
 		if (err) throw err;
 		if (result == "") {} else {
-			console.log('更新找回随机码')
+			console.log('更新密码成功')
 			var data = {
 				message: '更新密码成功!',
 				code: '200',
@@ -71,4 +61,4 @@ function updatelook(res, retrieve, user, password) {
 		}
 	});
 }
-module.exports = login;
+module.exports = changePassword;

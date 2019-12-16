@@ -11,14 +11,13 @@ var addUserRouter = require('./routes/login/addUser');
 var login = require('./routes/login/login');
 var search = require('./routes/login/search');
 var retrieve = require('./routes/login/retrieve');
-
+var changePassword = require('./routes/login/changePassword');
 //文章
 var wzarticle = require('./routes/writing/article');
 var wzsearch = require('./routes/writing/search');
 var wzdetails = require('./routes/writing/details');
 var wzarticlereview = require('./routes/writing/articlereview');
 var wzwriteComments = require('./routes/writing/writeComments');
-
 
 //session
 var parseurl = require('parseurl')
@@ -90,7 +89,7 @@ app.use(require('express-status-monitor')())
 //上传。。。
 var routes = require('./routes/upload/upload');
 
-app.use('/', routes);
+app.use('/ss', routes);
 
 
 //登陆模块接口 
@@ -98,6 +97,7 @@ app.use('/addUser', addUserRouter);
 app.use('/login', login);
 app.use('/search', search);
 app.use('/retrieve', retrieve);
+app.use('/changePassword', changePassword);
 //文章
 app.use('/wz/article', wzarticle);
 app.use('/wz/search', wzsearch);

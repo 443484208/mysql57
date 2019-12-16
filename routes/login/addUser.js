@@ -6,11 +6,9 @@ var sessionViews = require('./../session.js');
 //默认 '/urlencoded
 //注册用户
 router.post('/', function(req, res, next) {
-	sessionViews(res, req.body).then(function(data) {
-		if (data) {
 			addUser(res, req.body);
-		} else {}
-	})
+			// addUser(res, req.body);
+
 });
 
 module.exports = router;

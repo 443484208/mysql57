@@ -1,0 +1,2 @@
+::1 - - [2019-9-30 15:06:53]] "GET /favicon.ico HTTP/1.1" 404 126 "http://localhost:3000/ssss/test" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"
+::1 - - [2019-9-30 15:08:43]] "GET /ssss/test HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"

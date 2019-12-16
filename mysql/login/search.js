@@ -8,7 +8,7 @@ var login = function(res, req, id) {
 	console.log('id=', id);
 	//查是否有该用户
 	if (id.user) {
-		var sql = 'SELECT * FROM user where user="' + id.user + '"';
+		var sql = 'SELECT * FROM hong_user where user="' + id.user + '"';
 		connection.query(sql, function(err, result) {
 			console.log('result=', result);
 			if (err) throw err;
@@ -56,7 +56,7 @@ function randomString(len, charSet) {
 };
 
 function updatelook(res, retrieve, user) {
-	var sql = 'UPDATE user SET retrieve = "' + retrieve + '" WHERE user ="' + user + '";';
+	var sql = 'UPDATE hong_user SET retrieve = "' + retrieve + '" WHERE user ="' + user + '";';
 	connection.query(sql, function(err, result) {
 		if (err) throw err;
 		if (result == "") {} else {

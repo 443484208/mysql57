@@ -5,20 +5,81 @@
 		<title></title>
 	</head>
 	<body>
-		<h1>
-			<%=title%>
-		</h1>
-		<form action="http://localhost:3000/upload" οnsubmit="validate();" method="post" enctype="multipart/form-data">
-			<input name="fileUpload" type="file" />
-			<input name="ss" type="file" />
-			<input name="sss" type="file" />
-			<input name="ssss" type="file" />
-			<button type="submit">上传</button>
-		</form>
-		<script>
-			function validate(){
-				return true
-			}
-		</script>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<meta charset="utf-8">
+				<title></title>
+			</head>
+			<body>
+				<div onclick="pppp()">修改</div>
+		
+				<script type="text/javascript">
+					
+		
+		
+					function postJson(url, data, header = "application/json; charset=UTF-8") {
+						let p = new Promise(function(resolve, reject) {
+							console.log(data)
+							var xhr = new XMLHttpRequest();
+							xhr.open("POST", url, true);
+							xhr.onreadystatechange = function() {
+								if (xhr.readyState == 4) {
+									if (this.status == 200) {
+										var data = xhr.response;
+										resolve(JSON.parse(data));
+									} else {
+										reject(new Error(xhr.stateText));
+									}
+								}
+							};
+							xhr.setRequestHeader("Content-Type", header);
+							if (!((header.indexOf('form')) == -1)) {
+								var formData = [];
+								for (var key in data) {
+									if (data[key]) {
+										formData = formData + key + '=' + data[key] + '&';
+									}
+								}
+								xhr.send(formData);
+							} else if (typeof(data) == 'object') {
+								xhr.send(JSON.stringify(data));
+							} else {
+								xhr.send(data);
+							}
+						})
+						return p;
+					}
+					
+					// postJson('http://localhost:3000/search', {
+					// 		user: "admin",
+					// 		password: '123456',
+					// 		email: '443484108',
+					// 		lastTime: '2019-01-12',
+					// 		session: 12345678
+					// 	}).then(data => {
+					// 	if (data.code == '200') {
+					// 		console.log(data)
+					// 	} 
+					// }, err => {
+					// 	console.log(err)
+					// })
+					function pppp(){
+						postJson('http://localhost:3000/login', {
+								user: "admin",
+								password: '1234',
+							}).then(data => {
+							if (data.code == '200') {
+								console.log(data)
+							} 
+						}, err => {
+							console.log(err)
+						})
+					}
+					
+				</script>
+			</body>
+		</html>
+		
 	</body>
 </html>

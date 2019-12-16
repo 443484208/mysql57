@@ -1,6 +1,5 @@
 var connection = require('./../index.js');
 var addUser = function(res, id) {
-	console.log(res)
 	connection.connect(function(err) {
 		if (err) {} else {
 			console.log("数据库连接成功");
@@ -8,8 +7,9 @@ var addUser = function(res, id) {
 	});
 	//查是否有该用户
 	if (id.user) {
-		var sql = 'SELECT * FROM user where user="' + id.user + '"';
+		var sql = 'SELECT * FROM hong_user where user="' + id.user + '"';
 		connection.query(sql, function(err, result) {
+			console.log("err:",err)
 			if (err) throw err;
 			if (result == "") {
 				add(res, id);
@@ -31,13 +31,16 @@ var addUser = function(res, id) {
 
 function add(res, id) {
 	//新增
-	var addSql = 'INSERT INTO user(user,password,lastTime,email) VALUES(?,?,?,?)';
+	var addSql = 'INSERT INTO hong_user(user,password,lastTime,email)VALUES(?,?,?,?)';
 	var addSqlParams = [];
 	addSqlParams.push(id.user)
 	addSqlParams.push(id.password)
 	addSqlParams.push(id.lastTime)
 	addSqlParams.push(id.email)
+	console.log('id.password=',id.password)
 	connection.query(addSql, addSqlParams, function(err, result) {
+		console.log('result=',result)
+	console.log('err=',err)
 		if (err) {
 			console.log('注册失败...');
 			res.send({

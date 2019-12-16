@@ -1,4 +1,5 @@
 var connection = require('./../index.js');
+var mysqlL = require('./../../mysqlL.js')
 //随机session
 function randomString(len, charSet) {
 	charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -17,46 +18,58 @@ var login = function(res, req, id) {
 	});
 	//查是否有该用户
 	if (id.user) {
-		var sql = 'SELECT * FROM user where user="' + id.user + '"';
-		connection.query(sql, function(err, result) {
-			console.log(result)
-			if (result == "") {
-				console.log('登陆验证...');
-				console.log('没有该账号!请注册后登陆!');
-				var data = {
-					message: '没有该账号!请注册后登陆!',
-					code: '666',
-				}
-				res.send(data);
-			} else {
-				console.log('查找成功...');
-				console.log('返回数据...登陆成功!');
-				var session = randomString(8);
-				console.log('生成随机数=', session);
-				console.log(result);
-				console.log('色素随便=', req.session.views);
-				if (result[0].password == id.password) {
+		var sql = mysqlL.search('hong_user', {
+			user: id.user
+		})
+		if (sql.message == 200) {
+			connection.query(sql.data, function(err, result) {
+				console.log(result)
+				if (result == "") {
+					console.log('登陆验证...');
+					console.log('没有该账号!请注册后登陆!');
 					var data = {
-						message: '登陆成功!',
-						code: '200',
-						data: {
-							age: result[0].age,
-							user: result[0].user,
-							email: result[0].email,
-							session: session,
-						}
-					};
-					search(res, id, session, data);
-				} else {
-					var data = {
-						message: '密码不对!',
-						code: '201',
-					};
-					console.log('密码不对!');
+						message: '没有该账号!请注册后登陆!',
+						code: '666',
+					}
 					res.send(data);
+				} else {
+					console.log('查找成功...');
+					console.log('返回数据...登陆成功!');
+					var session = randomString(8);
+					console.log('生成随机数=', session);
+					console.log(result);
+					console.log('色素随便=', req.session.views);
+					if (result[0].password == id.password) {
+						var data = {
+							message: '登陆成功!',
+							code: '200',
+							data: {
+								age: result[0].age,
+								user: result[0].user,
+								email: result[0].email,
+								session: session,
+							}
+						};
+						search(res, id, session, data);
+					} else {
+						var data = {
+							message: '密码不对!',
+							code: '201',
+						};
+						console.log('密码不对!');
+						res.send(data);
+					}
 				}
-			}
-		});
+			});
+		} else {
+			var data = {
+				message: '参数不对!',
+				code: '401',
+			};
+			console.log('sql!', sql);
+			console.log('参数不对!');
+			res.send(data);
+		}
 	} else {
 		console.log('登录请输入账号!');
 		console.log('id:', id);
@@ -68,12 +81,17 @@ var login = function(res, req, id) {
 
 function addsession(res, id, session, data) {
 	//新增
-	var addSql = 'INSERT INTO session(user,session,lastTime) VALUES(?,?,?)';
+	// var addSql = 'INSERT INTO hong_session(user,session,lastTime) VALUES(?,?,?)';
 	var addSqlParams = [];
 	addSqlParams.push(id.user)
 	addSqlParams.push(session)
 	addSqlParams.push(id.lastTime)
-	connection.query(addSql, addSqlParams, function(err, result) {
+	var sql = mysqlL.insert('hong_session', {
+		user:id.user,
+		session:session,
+		lastTime:id.lastTime,
+	})
+	connection.query(sql.data, addSqlParams, function(err, result) {
 		if (err) {
 			res.send(data);
 		} else {}
@@ -82,26 +100,31 @@ function addsession(res, id, session, data) {
 
 function search(res, id, session, data) {
 	console.log('id.user', id.user)
-	var sql = 'SELECT * FROM session where user="' + id.user + '";';
-	connection.query(sql, function(err, result) {
-		console.log(data)
-		console.log('err=', err)
-		console.log('result=', result)
-		if (err) throw err;
-		if (result == "") {
+	var sql = mysqlL.search('hong_session', {
+		user: id.user
+	})
+	if (sql.message == 200) {
+		connection.query(sql.data, function(err, result) {
 			console.log(data)
-			console.log('没有登录过，现在准备写入数据库。。。')
-			addsession(res, id, session, data)
-		} else {
-			console.log('登陆过，替换session。。。');
-			updatesession(res, id, session, data)
-		}
-	});
+			console.log('err=', err)
+			console.log('result=', result)
+			if (err) throw err;
+			if (result == "") {
+				console.log(data)
+				console.log('没有登录过，现在准备写入数据库。。。')
+				addsession(res, id, session, data)
+			} else {
+				console.log('登陆过，替换session。。。');
+				updatesession(res, id, session, data)
+			}
+		});
+	} else {
+	}
 	console.log("session=", session)
 }
 
 function updatesession(res, id, session, data) {
-	var sql = 'UPDATE session SET session = "' + session + '" WHERE user ="' + id.user + '";';
+	var sql = 'UPDATE hong_session SET session = "' + session + '" WHERE user ="' + id.user + '";';
 	connection.query(sql, function(err, result) {
 		if (err) throw err;
 		if (result == "") {} else {
